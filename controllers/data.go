@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
 type FeedResponse struct {
@@ -17,7 +19,15 @@ type FeedResponse struct {
 	} `json:"feeds"`
 }
 
+func initKey() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+}
+
 func GetData(w http.ResponseWriter, r *http.Request) {
+	initKey()
 	w.Header().Set("Content-Type", "application/json")
 
 	apiKey := os.Getenv("TRANSITLAND_API_KEY")
